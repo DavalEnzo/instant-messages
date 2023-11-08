@@ -9,7 +9,7 @@ export default function Home() {
         <div className="bg-gray-700 h-screen">
             <SideBar></SideBar>
             <div className="flex flex-col items-center justify-center">
-                <p>Hello</p>
+                <p>Hello lol</p>
             </div>
         </div>
     )
