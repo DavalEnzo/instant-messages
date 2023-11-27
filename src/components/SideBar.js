@@ -19,13 +19,13 @@ export const SideBar = () => {
             if(snapshot.exists()) {
                 setUserList([]);
                 Object.keys(users).forEach((key) => {
-                    if (users[key].id !== connectedUser.id) {
+                    if (users[key].email !== connectedUser.email) {
                         setUserList((userList) => [...userList, users[key]]);
                     }
                 });
             }
         });
-    }, [connectedUser.id]);
+    }, [connectedUser.email]);
 
     return (
         <Sidebar className="fixed rounded-r-lg" aria-label="Default sidebar example">
