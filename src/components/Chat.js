@@ -84,13 +84,57 @@ export const Chat = ({idDestinataire}) => {
             if(snapshot.exists()) {
                 Object.keys(conversations).forEach((key) => {
                     if (conversations[key].participants.includes(idDestinataire) || conversations[key].participants.includes(JSON.parse(sessionStorage.getItem('user')).id)) {
-                        console.log(conversations[key])
                         setConversation(() => [conversations[key]]);
                     }
                 });
             }
         });
-    }, []);
+    }, [idDestinataire]);
+
+    const addFriend = (id) => {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        const friendRef = ref(getDatabase(), `users/${user.id}/friends`);
+        onValue(friendRef, (snapshot) => {
+            const friends = snapshot.val();
+            if(snapshot.exists()) {
+                Object.keys(friends).forEach(() => {
+                    update(ref(getDatabase(), `users/${user.id}/friends`), {
+                        ...friends,
+                        [id]: {
+                            id: id
+                        }
+                    }).then(r => {
+                        console.log(r)
+                    });
+                });
+            } else {
+                update(ref(getDatabase(), `users/${user.id}/friends`), {
+                    [id]: {
+                        id: id
+                    }
+                }).then(r => {
+                    console.log(r)
+                });
+            }
+        });
+    }
+
+    const checkIfFriend = (id) => {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        const friendRef = ref(getDatabase(), `users/${user.id}/friends`);
+        let check = false;
+        onValue(friendRef, (snapshot) => {
+            const friends = snapshot.val();
+            if(snapshot.exists()) {
+                Object.keys(friends).forEach((key) => {
+                    if (friends[key].id === id) {
+                        return check = true;
+                    }
+                });
+            }
+        });
+        return check;
+    }
 
     if(!idDestinataire) return(<></>);
 
@@ -117,8 +161,13 @@ export const Chat = ({idDestinataire}) => {
     return(
         <div className="rounded-l-lg bg-[#1c1313] justify-center h-screen items-end py-7 w-1/2 mx-auto mr-0">
             {conversationAffiche()}
+            {checkIfFriend(idDestinataire) ? <></> :
+                <div className="flex justify-center items-center mx-auto rounded-lg bg-gray-50 bg-opacity-25 text-opacity-70 w-10/12 px-4 mt-10 text-white">
+                    <p>Cette personne ne fait pas partie de vos contacts, vous pouvez l'ajouter <button type="button" onClick={() => addFriend(idDestinataire)} className="font-bold text-blue-500">ici</button></p>
+                </div>
+            })
             <form
-                onSubmit={() => {envoi()}}
+                onSubmit={(e) => {envoi(); e.preventDefault()}}
                 className="flex gap-3 px-4 border-black justify-center items-center">
                 <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Ecrivez votre message 😊" className="place-self-end border-gray-300 bg-[#1c1313] px-3 py-1 my-4 border-2 w-11/12 rounded-full text-white">
                 </input>
