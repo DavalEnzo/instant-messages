@@ -8,9 +8,6 @@ export default function Home() {
     return(
         <div className="bg-gray-700 h-screen">
             <SideBar></SideBar>
-            <div className="flex flex-col items-center justify-center">
-                <p>Hello lol</p>
-            </div>
         </div>
     )
 }
