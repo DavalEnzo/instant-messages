@@ -4,7 +4,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Firebase from "../firebase";
 import {ref, get, update} from "firebase/database";
 import initializeApp from "../firebase";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -63,7 +63,7 @@ export default function Login() {
     return(
         <div className="w-1/4">
         <ToastContainer />
-            <form className="bg-slate-200 flex flex-col p-4 gap-2 rounded-2xl w-full" onSubmit={submithandler}>
+            <form className="bg-slate-200 flex flex-col justify-center items-center p-4 gap-2 rounded-2xl w-full" onSubmit={submithandler}>
                 <div className="p-5 flex flex-col gap-4">
                     <h1 className="text-center text-5xl py-5">Bienvenue</h1>
                     <div>
@@ -77,6 +77,7 @@ export default function Login() {
                 </div>
 
                 <Button className="w-1/2 place-self-center" type = "submit">Connexion</Button>
+                <p>Pas encore inscrit ? <Link className="font-bold text-blue-500" to={"/register"}>S'inscrire</Link></p>
             </form>
         </div>
     );

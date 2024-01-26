@@ -36,7 +36,9 @@ export const SideBar = () => {
                     onValue(friendRef, (snapshot) => {
                         const friend = snapshot.val();
                         friend.id = snapshot.key;
-                        setUserList((userList) => [...userList, friend]);
+                        if (!userList.includes(friend)) {
+                            setUserList((userList) => [...userList, friend]);
+                        }
                     });
                 });
             } else {

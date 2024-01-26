@@ -7,7 +7,7 @@ import {
 import Firebase from "../firebase";
 import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
 import { ref, set } from "firebase/database";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function Register() {
     const [data, setData] = useState({})
@@ -42,7 +42,7 @@ export default function Register() {
     }
 
     return(
-        <div className="w-1/4">
+        <div className="w-1/3">
             <form className="bg-slate-200 flex flex-col p-4 gap-2 rounded-2xl w-full" onSubmit={submithandler}>
                 <div className="p-5 flex flex-col gap-4">
                     <h1 className="text-center text-5xl py-5">Bienvenue, veuillez vous inscrire</h1>
@@ -65,6 +65,7 @@ export default function Register() {
                 </div>
 
                 <Button className="w-1/2 place-self-center" type = "submit">Inscription</Button>
+                <Link to={"/login"} className="text-center">Déjà inscrit ? <span className="font-bold text-blue-500">Connectez-vous</span></Link>
             </form>
         </div>
     );
